@@ -1,0 +1,19 @@
+body {
+  display: block;
+}
+
+.container {
+  margin: auto;
+  width: 100%;
+  max-width: 600px;
+  display: block;
+  text-align: center;
+}
+
+/* .blurb {
+  max-width: 550px;
+} */
+
+form {
+  margin-top: 1rem;
+}
