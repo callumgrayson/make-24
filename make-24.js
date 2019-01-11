@@ -47,7 +47,7 @@ function handleSubmit(e) {
   let num = `${e.target[0].value}`;
   let numStr = validate(num);
   if (numStr) {
-    let result = algorithms02.solve24(numStr);
+    let result = make24.solve24(numStr);
     display(num, result);
     clearInput();
   } else {
@@ -64,7 +64,7 @@ function addInputListener() {
 
 addLoadEvent(addInputListener);
 
-const algorithms02 = {
+const make24 = {
   
   solve24(numStr) {
     if (!numStr.length) {return 'Nothing to work with!'};
@@ -154,11 +154,6 @@ const algorithms02 = {
     let dS = [...digitSet];
     const opS = [...opSet];
     let orS = [...ordSet];
-
-    // console.log(dS);
-    // console.log(opS);
-    // console.log(orS);
-    // console.log(sets24);
     
     // Now all sets are ready to go
     // dS, opS, orS, sets24
@@ -168,18 +163,10 @@ const algorithms02 = {
         // opS[b][0], opS[b][1], opS[b][2] ** can be 1, 2, 3, 4 add sub mult div
         for (let c = 0; c < orS.length; c++) {
           // orS[c][0], orS[c][1], orS[c][2] ** can be 1, 2, 3 order of ops
-          // console.log(dS[a]);
-          // console.log(opS[b]);
-          // console.log(orS[c]);
 
           let first = orS[c].indexOf(1); // 0 in array of ops
           let second = orS[c].indexOf(2); // 1
           let third = orS[c].indexOf(3); // 2
-          // console.log(first);
-          // console.log(second);
-          // console.log(third);
-
-
 
           // Four digits 1, 2, 3, 4
           let getOp = (arr, key) => {
@@ -193,14 +180,6 @@ const algorithms02 = {
               return '/';
             }
           }
-
-          let op1 = getOp(opS[b], first);
-          let op2 = getOp(opS[b], second);
-          let op3 = getOp(opS[b], third);
-
-          // console.log(op1);
-          // console.log(op2);
-          // console.log(op3);
 
           const calCer = (operand1, operand2, opArr, key) => {
             if (opArr[key] === 1) {
@@ -229,10 +208,6 @@ const algorithms02 = {
           let tempOrS = [...orS[c]];
           tempOrS.splice(first, 1);
           const oR2 = [...tempOrS];
-          // console.log(d2);
-          // console.log(oP2);
-          // console.log(oR2);
-
 
           // New second and third, adjusted on conditional
           let secondB;
@@ -256,10 +231,6 @@ const algorithms02 = {
           
           let tempOrS2 = [...oR2];
           tempOrS2.splice(secondB, 1);
-          const oR3 = [...tempOrS2];
-          // console.log(d3);
-          // console.log(oP3);
-          // console.log(oR3);
 
           // New third, adjusted on conditional
           let thirdC;
@@ -272,15 +243,8 @@ const algorithms02 = {
           
           
           if (res3 === 24) {
-            // console.log('Holy Shit, we got one!');
-            // console.log(res3);
-            // console.log(dS[a]);
-            // console.log(opS[b]);
-            // console.log(orS[c]);
             let arrayOfArrs = [[...dS[a]], [...opS[b]], [...orS[c]]];
-            // console.log(arrayOfArrs);
             sets24.push(arrayOfArrs);
-
           }
         }
       }
@@ -291,10 +255,8 @@ const algorithms02 = {
     let retIntArr = [];
     for (let a = 0; a < arr.length; a++) {
       let tempArr = [];
-      // console.log(arr[a]);
       for (let b = 0; b < arr[a].length; b++) {
         let c = parseInt(arr[a][b]);
-        
         tempArr.push(c);
       }
       retIntArr.push(tempArr);
@@ -303,54 +265,39 @@ const algorithms02 = {
   },
 
   convertArraysToString(sets24) {
-    // console.log(sets24);
     let retArr = [];
 
     for (let i = 0; i < sets24.length; i++) {
       // get phaseObj
-
-      // ****************
-      // i = 8 is an example of a negative scenario
-      // ________________
-      let phaseObj = this.getPhaseObj(sets24[i]); // CHANGE back after!!! to i
-      // console.log(phaseObj);
+      let phaseObj = this.getPhaseObj(sets24[i]); 
       // get phaseStr
       let phaseStr = this.getPhaseStr(phaseObj);
       // push phaseStr to returnObj
       retArr.push(phaseStr);
-      // return returnObj
-      // ************************** And replace this below to include all items
-      
     }
     return retArr;
   },
 
   getPhaseObj(inArr) {
-    // console.log(inArr);
-    // console.log(inArr[0]);
     const newInArr0 = [...inArr[0]];
-    // console.log(newInArr0);
-
 
     // get order indexes
     const first = inArr[2].indexOf(1);
     const second = inArr[2].indexOf(2);
     const third = inArr[2].indexOf(3); 
-    // console.log(first, second, third);
 
     const posFirst = first === 0 ? 'L' : (first === 1 ? 'M' : 'R');
     const posSecond = second === 0 ? 'L' : (second === 1 ? 'M' : 'R');
     const posThird = third === 0 ? 'L' : (third === 1 ? 'M' : 'R');
 
-    // splice at inArr[first] cut 2 replace with [inArr[0][first], inArr[0][first + 1]]
+    // splice at inArr[first] cut 2 replace with 
+    // [inArr[0][first], inArr[0][first + 1]]
     newInArr0.splice(first, 2, [inArr[0][first], inArr[0][first + 1]]);
-    // console.log(newInArr0);
 
     // get vals based on first
     const d1 = newInArr0[first];
     const op1 = inArr[1][first];
     
-
     const d2 = newInArr0[second];
     const op2 = inArr[1][second];
     
@@ -382,15 +329,11 @@ const algorithms02 = {
   },
 
   getPhaseStr(inObj) {
-    // console.log(inObj);
+
     // Gets the type of operation from each phase object
     let opPat1 = inObj.phase1.op;
     let opPat2 = inObj.phase2.op;
     let opPat3 = inObj.phase3.op;
-
-    const opP1 = opPat1 < 3 ? 'a' : 'm';
-    const opP2 = opPat2 < 3 ? 'a' : 'm';
-    const opP3 = opPat3 < 3 ? 'a' : 'm';
 
     const d1a = inObj.phase1.d1[0];
     const d1b = inObj.phase1.d1[1];
@@ -438,7 +381,6 @@ const algorithms02 = {
     }
 
     // String phase3
-    // console.log(opInd1, opInd2, opInd3);
     let phase3Str = '';
     if (opInd3 === 1 && opInd1 === 0) {
       phase3Str = `${phase1Str}${op3Str}${phase2Str}`;
@@ -450,10 +392,9 @@ const algorithms02 = {
       phase3Str = `${phase2Str}${op3Str}${d3}`;
     } else {
       console.log('WTF?? Something does not make sense');
-    }    
-    // console.log('phase3Str: ', phase3Str, eval(phase3Str));
+    }
     
-    // Brackets around phase1 only // Might need to tweak bottom two ???
+    // Brackets around phase1 only 
     let only1Str = '';
     if (opDiff12 === 2) {
       only1Str = `${phase1Str}${op3Str}${d3}${op2Str}${d2}`;
@@ -470,7 +411,6 @@ const algorithms02 = {
     } else {
       console.log('WTF?? Something does not make sense');
     }
-    // console.log('only1Str: ', only1Str, eval(only1Str));
     
     // Phase1 String with no brackets
     const phase1StrNoBrackets = `${d1a}${op1Str}${d1b}`;
@@ -492,7 +432,6 @@ const algorithms02 = {
     } else {
       console.log('WTF?? Something does not make sense');
     }
-    // console.log('only2Str: ', only2Str, eval(only2Str));
 
     // No brackets
     let noBracketsStr = ``;
@@ -511,12 +450,8 @@ const algorithms02 = {
     } else {
       console.log('WTF?? Something does not make sense');
     }
-    // console.log('noBracketsStr: ', noBracketsStr, eval(noBracketsStr));
 
     // tests: brackets12 === noBrackets, brackets12 === brackets1, brackets12 === brackets2
-    // const test0 = brackets12 === noBrackets;
-    // const test1 = brackets12 === Brackets1;
-    // const test2 = brackets12 === Brackets2;
     // Compare: phase3Str, only1Str, only2Str, noBracketsStr
     let finalStr = '';
     if (eval(noBracketsStr) === eval(phase3Str)) {
@@ -528,7 +463,6 @@ const algorithms02 = {
     } else {
       finalStr = phase3Str;
     }
-
     return finalStr;
   },
 
@@ -537,7 +471,6 @@ const algorithms02 = {
     // Take arr, sort, remove duplicates, return
     let retArr = [];
     const sortArr = [...arr];
-
     const sortedArr = sortArr.sort();
 
     retArr = sortedArr.reduce((acc, val) => {
@@ -545,6 +478,5 @@ const algorithms02 = {
     }, []);
 
     return retArr;
-
   },
 }
